@@ -60,10 +60,11 @@ def takeStepsAChoices():
                 currentStepText += line.strip()
         if currentStepText:
             steps.append(currentStepText.split('\n')[-1])
-        choices[53] = {1: "Попробовать начать разговор с существом", 2: 'Подойти к существу ближе, чтобы лучше рассмотреть его'}
-        choices[55] = {1: "Попытаться подружиться с ним", 2: "Осторожно отойти от существа"}
-        choicesToStep[53] = {1: '54', 2: '55'}
-        choiceToStep[55] = {1: '56', 2: '57'}
+        choices['53'] = {'1': "Попробовать начать разговор с существом",
+                       '2': 'Подойти к существу ближе, чтобы лучше рассмотреть его'}
+        choices['55'] = {'1': "Попытаться подружиться с ним", '2': "Осторожно отойти от существа"}
+        choicesToStep['53'] = {1: '54', 2: '55'}
+        choicesToStep['55'] = {1: '56', 2: '57'}
         steps.pop(0)
     return steps, choices, choicesToStep
 
@@ -111,6 +112,8 @@ if __name__ == '__main__':
     steps = steps_and_choices[0]
     choices = steps_and_choices[1]
     choicesToSteps = steps_and_choices[2]
+    steps[52] = steps[52].split('.1.')[0]
+    steps[54] = steps[54].split(':')[0]
     print('Добро пожаловать в игру: Таинственный лес, для начала нажми ПРОБЕЛ!')
     print('Для перехода к следующему шагу - нажми ПРОБЕЛ!')
     print()
