@@ -155,32 +155,48 @@ def saveToCSV(startTime, endTime):
             writer.writerow(newData)
             return newData
 
+
 def deleteSave(jsonData, csvData):
-    countChoices = 0
+    print("Если хотите завершить сеанс введите: 1")
+    print("Если хотите удалить сохранение введите: 2")
     work = True
-    for id, choice in enumerate(jsonData):
-        countChoices += 1
-        print(f"{id + 1}: начало игры: {choice['startTime']} конец игры: {choice['endTime']}")
-    print('Выберите номер сохранения которое вы хотите удалить: ')
+    choice = ''
     while work:
         try:
-            choice = int(input('Ваш выбор: '))
-            if choice >= 1 and choice <= countChoices:
-                jsonData.pop(choice - 1)
-                csvData.pop(choice - 1)
+            choice = input('Ваш выбор: ')
+            # return int(choice)
+            if int(choice) == 1 or int(choice) == 2:
                 work = False
             else:
-                raise ValueError
-        except ValueError:
-            print(f"Введите число от 1 до {countChoices})")
-    with open('data.json', 'w') as file:
-        file.truncate(0)
-        json.dump(jsonData, file, indent=4)
-    with open('data.csv', 'w', newline='') as file:
-        file.truncate(0)
-        writer = csv.writer(file)
-        for row in csvData:
-            writer.writerow(row)
+                raise (ValueError)
+        except:
+            print("Введите 1 или 2)")
+    if choice == '2':
+        countChoices = 0
+        work = True
+        for id, choice in enumerate(jsonData):
+            countChoices += 1
+            print(f"{id + 1}: начало игры: {choice['startTime']} конец игры: {choice['endTime']}")
+        print('Выберите номер сохранения которое вы хотите удалить: ')
+        while work:
+            try:
+                choice = int(input('Ваш выбор: '))
+                if choice >= 1 and choice <= countChoices:
+                    jsonData.pop(choice - 1)
+                    csvData.pop(choice - 1)
+                    work = False
+                else:
+                    raise ValueError
+            except ValueError:
+                print(f"Введите число от 1 до {countChoices})")
+        with open('data.json', 'w') as file:
+            file.truncate(0)
+            json.dump(jsonData, file, indent=4)
+        with open('data.csv', 'w', newline='') as file:
+            file.truncate(0)
+            writer = csv.writer(file)
+            for row in csvData:
+                writer.writerow(row)
 
 
 if __name__ == '__main__':
