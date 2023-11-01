@@ -1,5 +1,10 @@
+import os
+
 import keyboard
 import time
+from datetime import datetime
+import json
+import csv
 
 def checkChoice():
     choice = ""
@@ -106,8 +111,80 @@ def game(steps: list, choices: dict, choicesToSteps: dict, step=1):
     nextStep(step, steps, choices, choicesToSteps)
 
 
+def saveToJson(startTime, endTime):
+    data = list()
+    newData = dict()
+    if os.path.exists('data.json'):
+        with open('data.json', 'r') as file:
+            data = json.load(file)
+    else:
+        data = []
+        with open('data.json', 'w') as file:
+            json.dump(data, file)
+    countSaves = len(data)
+    newData['startTime'] = str(startTime)
+    newData['numberOfSave'] = countSaves
+    newData['endTime'] = str(endTime)
+    durationOfTime = (endTime - startTime)
+    newData['duratuonOfTime'] = str(durationOfTime)
+    data.append(newData)
+    with open('data.json', 'w') as file:
+        json.dump(data, file, indent=4)
+    return data
+
+
+def saveToCSV(startTime, endTime):
+    data = list()
+    if os.path.exists('data.csv'):
+        with open('data.csv', 'r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                data.append(row)
+    durationOfTime = str(endTime - startTime)
+    newData = [str(startTime), str(endTime), durationOfTime]
+    if len(data) != 0:
+        data.append(newData)
+        with open('data.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            for row in data:
+                writer.writerow(row)
+            return data
+    else:
+        with open('data.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(newData)
+            return newData
+
+def deleteSave(jsonData, csvData):
+    countChoices = 0
+    work = True
+    for id, choice in enumerate(jsonData):
+        countChoices += 1
+        print(f"{id + 1}: начало игры: {choice['startTime']} конец игры: {choice['endTime']}")
+    print('Выберите номер сохранения которое вы хотите удалить: ')
+    while work:
+        try:
+            choice = int(input('Ваш выбор: '))
+            if choice >= 1 and choice <= countChoices:
+                jsonData.pop(choice - 1)
+                csvData.pop(choice - 1)
+                work = False
+            else:
+                raise ValueError
+        except ValueError:
+            print(f"Введите число от 1 до {countChoices})")
+    with open('data.json', 'w') as file:
+        file.truncate(0)
+        json.dump(jsonData, file, indent=4)
+    with open('data.csv', 'w', newline='') as file:
+        file.truncate(0)
+        writer = csv.writer(file)
+        for row in csvData:
+            writer.writerow(row)
+
 
 if __name__ == '__main__':
+    startTime = datetime.now()
     steps_and_choices = takeStepsAChoices()
     steps = steps_and_choices[0]
     choices = steps_and_choices[1]
@@ -118,6 +195,13 @@ if __name__ == '__main__':
     print('Для перехода к следующему шагу - нажми ПРОБЕЛ!')
     print()
     game(steps, choices, choicesToSteps)
+    endTime = datetime.now()
+    jsonData = saveToJson(startTime, endTime)
+    csvData = saveToCSV(startTime, endTime)
+    deleteSave(jsonData, csvData)
+
+
+
 
 
 
