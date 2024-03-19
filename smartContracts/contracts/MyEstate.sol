@@ -141,15 +141,15 @@ contract MyEstate {
     function getEstates() public view returns(Estate[] memory) {
         Estate[] memory ests = new Estate[](estateCounter - 1);
         for (uint i = 1;i < estateCounter; i++) {
-            ests[i - 1] = estates[i];
+            ests[i - 1] = estates[i - 1];
         }
         return ests;
     }
 
     function getAdvs() public view returns(Advertisement[] memory) {
         Advertisement[] memory advertisements = new Advertisement[](advCounter - 1);
-        for (uint i = 1;i < estateCounter; i++) {
-            advertisements[i - 1] = advs[i];
+        for (uint i = 1;i < advCounter; i++) {
+            advertisements[i - 1] = advs[i - 1];
         }
         return advertisements;
     }
