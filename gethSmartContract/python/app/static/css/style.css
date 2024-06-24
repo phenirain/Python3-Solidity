@@ -1,0 +1,52 @@
+.mainBtn {
+    width: 200px !important;
+}
+
+.btn {
+    border: 1px solid white;
+    border-radius: 10px;
+    background: inherit;
+}
+
+.btn:hover {
+    background-color: white;
+    color: black
+}
+
+.hidden {
+    display: none;
+}
+
+.border {
+    border-radius: 10px !important;
+}
+
+.btn:disabled {
+    background-color: inherit;
+    border: 1px solid white;
+}
+
+#advertisiments {
+    gap: 30px;
+}
+
+#advertForm, #estateForm {
+    width: 40em;
+}
+
+.editAdvertForm {
+    width: 20em;
+}
+
+#header {
+    gap: 20px;
+    margin-top: -80px;
+}
+
+.adv_status {
+    width: 50%;
+}
+
+#estates {
+    gap:30px
+}

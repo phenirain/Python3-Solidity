@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}
+Недвижимость 
+{% endblock %}
+{% block body %}
+<div class="d-flex flex-column align-items-center">
+    {# Добавление #}
+    <div class="d-flex align-items-center mb-5">
+        <form method="post" action="/estates" id="estateForm" class="border p-4">
+            <h2>Новая недвижимость</h2>
+            <div class="form-group mb-3">
+                <label for="size" class="mb-3">Размер</label>
+                <input placeholder="Размер" type="text" class="form-control" id="size"
+                       name="estate_size"
+                       required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="address" class="mb-3">Адрес</label>
+                <input placeholder="Адрес" type="text" class="form-control" id="address"
+                       name="estate_address"
+                       required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="estate_type_id" class="mb-3">Выберите тип недвижимости</label>
+                <select class="form-control" id="estate_type_id" name="estate_type_id">
+                    {% for type_id, type in types | enumerate %}
+                        <option value="{{ type_id }}">{{ type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Создать</button>
+        </form>
+    </div>
+    {# Изменение статуса #}
+    <div class="d-flex container flex-wrap mb-5" id="estates">
+        {% for estate in estates %}
+            <div class="border p-4" id="estate{{estate[-1]}}">
+                <h2>Недвижимость {{ estate[-1] }}</h2>
+                <div class="d-flex mb-1">
+                    Размер: {{ estate[0] }}
+                </div>
+                <div class="d-flex mb-1">
+                    Адрес: {{ estate[1] }}
+                </div>
+                <div class="form-group mb-1">
+                    <label class="mb-1">Статус в продаже</label>
+                    <select class="form-control mb-1" class="estate_statuses" id="estateStatus_{{ estate[-1] }}" 
+                    {% if estate[4] == 0 %} disabled {% endif %}
+                    >
+                        {% for status_id, status in statuses | enumerate %}
+                            <option value="{{ status_id }}" {% if loop.index0 == estate[4] %}selected{% endif %}>
+                                {{ status }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group mb-1">
+                    Тип недвижимости: {{ types[estate[3]] }}
+                </div>
+                <button type="submit" class="mt-2 d-flex btn btn-primar" {% if estate[4] == 0 %} disabled {% endif %}
+                 id="estateChangeStatusBtn_{{ estate[-1] }}">Изменить</button>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+

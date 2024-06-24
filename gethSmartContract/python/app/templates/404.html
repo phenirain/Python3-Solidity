@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Не туда
+{% endblock %}
+
+{% block body %}
+<h2>Кажется такой страницы нет(</h2>
+<div class="flex">
+    {% if not user %}
+        <a href="{{ url_for('signup') }}" class="btn btn-outline-light mainBtn mt-5">Зарегистрироваться</a>
+        <a href="{{ url_for('login') }}" class="btn btn-outline-light mainBtn mt-5">Войти<a>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+

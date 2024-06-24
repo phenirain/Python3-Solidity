@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+</head>
+<body class="container text-center mt-5" data-bs-theme="dark">
+    {% if user %} 
+        <div class="d-flex justify-content-end mb-3" id="header">
+            <a href="{{ url_for('advertisements') }}" class="btn btn-outline-light mainBtn mt-5">Все объявления</a>
+            <a href="{{ url_for('estates') }}" class="btn btn-outline-light mainBtn mt-5">Вся недвижимость</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-light mainBtn mt-5">Выйти</a>
+        </div>
+        <h4 class="text-end mb3">
+            Ваш публичный ключ: {{ user.get_public_key() }}
+        </h4>
+        <h3 class="text-end mb-3">
+            Ваш баланс: {{ "{:.15f}".format(user.balance() / 1000000000000000000) }} eth
+        </h3>
+    {% else %}
+    {% endif %}
+    <h1 class="text-center">
+        Добро пожаловать в наше агенство недвижимости
+    </h1>
+    <h3 class="mt-5 text-center mb-5">
+        Здесь вы сможете разместить объявление для продажи вашей недвижимости
+    </h3>
+    {% block body %}
+    {% endblock %}
+    <script src="{{ url_for('static', filename='js/script.js')}}"></script>
+</body>
+
+</html>

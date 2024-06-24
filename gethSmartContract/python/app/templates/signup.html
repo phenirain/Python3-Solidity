@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+Регистрация
+{% endblock %}
+
+
+{% block body %}
+<div class="w-50 m-auto">
+    <form method="post" action="/signup" id="regForm" class="border p-4">
+        <h2>Регистрация</h2>
+        <div class="form-group mb-4">
+            <label for="regPassword" class="mb-3">Придумайте пароль</label>
+            <input placeholder="Ваш пароль тут" type="password" class="form-control" id="regPassword"
+                   name="password"
+                   required>
+        </div>
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    </form>
+    <p class="border p-4 mt-4 text-start hidden" id="public-key"><span class="fw-bold">Ваш публичный ключ:
+    </span></p>
+    <div class="mt-4 d-flex justify-content-end">
+        <a href="{{ url_for('estates') }}" class="btn text-decoration-none hidden" id="reg-continue">
+            Продолжить</a>
+    </div>
+</div>
+{% endblock %}
+
+
+

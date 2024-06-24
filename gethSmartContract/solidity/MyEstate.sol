@@ -139,19 +139,29 @@ contract MyEstate {
     }
 
     function getEstates() public view returns(Estate[] memory) {
-        Estate[] memory ests = new Estate[](estateCounter - 1);
-        for (uint i = 1;i < estateCounter; i++) {
-            ests[i - 1] = estates[i];
+        if (estateCounter <= 1) {
+            Estate[] memory empty;
+            return empty;
+        } else {
+            Estate[] memory ests = new Estate[](estateCounter - 1);
+            for (uint i = 1;i < estateCounter; i++) {
+                ests[i - 1] = estates[i];
+            }
+            return ests;
         }
-        return ests;
     }
 
     function getAdvs() public view returns(Advertisement[] memory) {
-        Advertisement[] memory advertisements = new Advertisement[](advCounter - 1);
-        for (uint i = 1;i < advCounter; i++) {
-            advertisements[i - 1] = advs[advIds[i]];
+        if (advCounter <= 1) {
+            Advertisement[] memory empty;
+            return empty;
+        } else {
+            Advertisement[] memory advertisements = new Advertisement[](advCounter - 1);
+            for (uint i = 1;i < advCounter; i++) {
+                advertisements[i - 1] = advs[advIds[i]];
+            }
+            return advertisements;
         }
-        return advertisements;
     }
 
     function getMyEstates() public view returns(uint[] memory) {

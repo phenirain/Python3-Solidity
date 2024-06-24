@@ -1,0 +1,68 @@
+{% extends "base.html"%}
+
+{% block title %}
+Заявления
+{% endblock %}
+
+
+{% block body %}
+<div class="d-flex flex-column align-items-center">
+    {# Добавление #}
+    <div class="d-flex align-items-center mb-5">
+        <form method="post" action="/advertisements" id="advertForm" class="border p-4">
+            <h2>Новое объявление</h2>
+            <div class="form-group mb-3">
+                <label for="price" class="mb-3">Цена</label>
+                <input placeholder="Стоимость" type="text" class="form-control" id="advPrice"
+                       name="adv_price"
+                       required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="estateId" class="mb-3">Выберите ID недвижимость</label>
+                <select class="form-control" id="estate_id" name="estate_id">
+                    {% for estate in estates%}
+                        <option value="{{ estate[-1] }}">{{ estate[-1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Создать</button>
+        </form>
+    </div>
+    {# Изменение статуса #}
+    <div class="d-flex container flex-wrap mb-5" id="advertisiments">
+        {% for adv in advs %}
+            <div class="editAdvertForm border p-4" id="adv_{{ adv[-1] }}">
+                <h2>Объявление #{{ adv[-1] }}</h2>
+                <div class="d-flex mb-1">
+                    Цена: {{ "{:.15f}".format(adv[2] / 1000000000000000000) }}
+                </div>
+                <div class="d-flex mb-1">
+                    ID недвижиости: {{ adv[3] }}
+                </div>
+                <div class="d-flex mb-1">
+                    Дата: {{ adv[4] }}
+                </div>
+                <div class="d-flex justify-content-between mb-1">
+                    <label class="mb-1">Статус открытия: </label>
+                    <select class="form-control adv_status" name="adv_statuses" id="advStatus_{{ adv[-1] }}"
+                    {% if adv[5] == 1 %} disabled {% endif %}
+                    >
+                        {% for status in statuses %}
+                            <option value="{{ status }}" {% if loop.index0 == adv[5] %}selected{% endif %}>
+                                {{ status }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="mt-2 d-flex btn btn-primary" id="advChangeStatusBtn_{{ adv[-1] }}"
+                        {% if adv[5] == 1 %} disabled {% endif %}
+                    >Изменить</button>
+                    <button class="mt-2 d-flex btn btn-primary" id="advBuyBtn_{{ adv[-1] }}" >Купить</button>
+                </div>
+            </div> 
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
